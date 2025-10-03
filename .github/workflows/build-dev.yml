@@ -10,16 +10,18 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: gradle:8.5-jdk17
     steps:
-      - name: Install node
-        run: |
-          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-          apt install -y nodejs
-
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Execute permission
         run: chmod +x gradlew
@@ -29,9 +31,12 @@ jobs:
 
       - name: Extract repository name
         run: echo "NAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
-        
+
       - name: Upload Build
-        uses: actions/upload-artifact@v3
+        uses: marvinpinto/action-automatic-releases@master
         with:
-          name: ${{ env.NAME }}
-          path: dist
+          title: "${{ env.NAME }}"
+          automatic_release_tag: "latest"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          files: "dist/*.jar"
+          prerelease: false
