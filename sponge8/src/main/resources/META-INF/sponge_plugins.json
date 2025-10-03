@@ -1,0 +1,35 @@
+{
+  "loader": {
+    "name": "java_plain",
+    "version": "1.0"
+  },
+  "license": "GNU GENERAL PUBLIC LICENSE Version 3",
+  "plugins": [
+    {
+      "id": "openely",
+      "entrypoint": "xyz.kaydax.openely.Main",
+      "name": "OpenEly",
+      "description": "A open source alterative to the Ely.by skin system plugin.",
+      "version": "1.0-SNAPSHOT",
+      "branding": {},
+      "links": {
+        "homepage": "https://kaydax.xyz",
+        "source": "https://git.kaydax.net/Kaydax/openely",
+        "issues": "https://git.kaydax.net/Kaydax/openely/issues"
+      },
+      "contributors": [
+        {
+          "name": "Kaydax"
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "spongeapi",
+          "version": "8.0.0",
+          "load-order": "after",
+          "optional": false
+        }
+      ]
+    }
+  ]
+}

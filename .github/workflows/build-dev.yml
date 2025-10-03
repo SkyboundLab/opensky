@@ -1,0 +1,37 @@
+name: Build Development
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: gradle:8.5-jdk17
+    steps:
+      - name: Install node
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+          apt install -y nodejs
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Execute permission
+        run: chmod +x gradlew
+
+      - name: Build
+        run: ./gradlew build
+
+      - name: Extract repository name
+        run: echo "NAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
+        
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.NAME }}
+          path: dist
