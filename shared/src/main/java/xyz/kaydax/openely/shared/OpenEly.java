@@ -19,9 +19,9 @@ public class OpenEly
   //This assumes that every single api's GameProfile properties are the same, which they should be...
   public static <T> List<T> modifySkin(String uuid, List<T> property, Consumer<String> logger) throws Exception
   {
-    logger.accept("[DEBUG] Starting modifySkin for UUID: " + uuid);
-    logger.accept("[DEBUG] Property list size: " + property.size());
-    logger.accept("[DEBUG] Forwarding all skins to custom API");
+    // logger.accept("[DEBUG] Starting modifySkin for UUID: " + uuid);
+    // logger.accept("[DEBUG] Property list size: " + property.size());
+    // logger.accept("[DEBUG] Forwarding all skins to custom API");
     
     List<T> properties = new ArrayList<>(property);
 
@@ -37,17 +37,17 @@ public class OpenEly
         {
           Method method = p.getClass().getMethod("getName");
           String pName = (String) method.invoke(p);
-          if(pName.equals("textures")) {
-            logger.accept("[DEBUG] Removing existing textures property");
-          }
+          // if(pName.equals("textures")) {
+          //   logger.accept("[DEBUG] Removing existing textures property");
+          // }
           return pName.equals("textures");
         } catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e)
         {
           Method method = p.getClass().getMethod("name");
           String pName = (String) method.invoke(p);
-          if(pName.equals("textures")) {
-            logger.accept("[DEBUG] Removing existing textures property");
-          }
+          // if(pName.equals("textures")) {
+          //   logger.accept("[DEBUG] Removing existing textures property");
+          // }
           return pName.equals("textures");
         }
       } catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e)
@@ -60,24 +60,24 @@ public class OpenEly
     {
       // Get the class of the generic type T from original properties
       Class<?> clazz = originalProperties.get(0).getClass();
-      logger.accept("[DEBUG] Property class: " + clazz.getName());
+      // logger.accept("[DEBUG] Property class: " + clazz.getName());
 
       // Get the constructor that takes three String parameters
       Constructor<?> constructor = clazz.getConstructor(String.class, String.class, String.class);
 
       // Create a new instance of T
-      logger.accept("[DEBUG] Fetching skin from API for UUID: " + uuid);
+      // logger.accept("[DEBUG] Fetching skin from API for UUID: " + uuid);
       Properties skin = getSkinByUUID(uuid);
-      logger.accept("[DEBUG] Received skin data - name: " + skin.name + ", value length: " + (skin.value != null ? skin.value.length() : "null") + ", signature length: " + (skin.signature != null ? skin.signature.length() : "null"));
+      // logger.accept("[DEBUG] Received skin data - name: " + skin.name + ", value length: " + (skin.value != null ? skin.value.length() : "null") + ", signature length: " + (skin.signature != null ? skin.signature.length() : "null"));
 
       @SuppressWarnings("unchecked") T instance = (T) constructor.newInstance(skin.name, skin.value, skin.signature);
 
       // Add the new instance to the properties list
       properties.add(instance);
-      logger.accept("[DEBUG] Successfully added new textures property");
+      // logger.accept("[DEBUG] Successfully added new textures property");
     }
 
-    logger.accept("[DEBUG] Skin modification complete, returning " + properties.size() + " properties");
+    // logger.accept("[DEBUG] Skin modification complete, returning " + properties.size() + " properties");
     return properties;
   }
 }
