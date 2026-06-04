@@ -9,7 +9,7 @@ public class ElyAPI
 {
   public static Properties getSkinByUUID(String uuid) throws Exception
   {
-    String json = readUrl("https://skyskin.twint.my.id/textures/signed/" + uuid);
+    String json = readUrl("https://skyskin.twint.us.kg/textures/signed/" + uuid);
     Gson gson = new Gson();
     Texture texture = gson.fromJson(json, Texture.class);
 
@@ -20,7 +20,7 @@ public class ElyAPI
         break;
       }
     }
-    
+
     if (texturesProperty == null) {
       throw new Exception("No textures property found in API response");
     }
