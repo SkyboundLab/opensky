@@ -31,13 +31,19 @@ public class Main
   }
 
   @Subscribe
-  public void onGameProfileRequestEvent(GameProfileRequestEvent event) throws Exception
+  public void onGameProfileRequestEvent(GameProfileRequestEvent event)
   {
-    logger.info("[OpenEly] Processing profile for player: " + event.getGameProfile().getName() + " (UUID: " + event.getGameProfile().getId() + ")");
-    logger.info("[OpenEly] Initial properties count: " + event.getGameProfile().getProperties().size());
-    
-    event.setGameProfile(new GameProfile(event.getGameProfile().getId(), event.getGameProfile().getName(), modifySkin(event.getGameProfile().getId().toString(), event.getGameProfile().getProperties(), logger::info)));
+    try
+    {
+      logger.info("[OpenEly] Processing profile for player: " + event.getGameProfile().getName() + " (UUID: " + event.getGameProfile().getId() + ")");
+      logger.info("[OpenEly] Initial properties count: " + event.getGameProfile().getProperties().size());
 
-    logger.info("[OpenEly] Skin processing complete for " + event.getGameProfile().getName());
+      event.setGameProfile(new GameProfile(event.getGameProfile().getId(), event.getGameProfile().getName(), modifySkin(event.getGameProfile().getId().toString(), event.getGameProfile().getProperties(), logger::info)));
+
+      logger.info("[OpenEly] Skin processing complete for " + event.getGameProfile().getName());
+    } catch(Exception e)
+    {
+      logger.warn("[OpenEly] Failed to process skin for " + event.getGameProfile().getName() + " (" + event.getGameProfile().getId() + "): " + e.getMessage(), e);
+    }
   }
 }
