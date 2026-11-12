@@ -10,7 +10,7 @@ public class ElyAPI
   public static Properties getSkinByUUID(String uuid) throws Exception
   {
     String json = readUrl("https://skyskin.twint.pp.ua/textures/signed/" + uuid);
-    if (json == null || json.isBlank()) {
+    if (json == null || json.trim().isEmpty()) {
       throw new Exception("Empty API response for UUID: " + uuid);
     }
 
